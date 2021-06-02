@@ -6,6 +6,7 @@
 
 #=================Lib================
 import tkinter
+import random
 from tkinter import messagebox
 
 
@@ -25,6 +26,7 @@ class mainWindow:
             self.sure2.destroy()
         except:
             pass
+
 
         self.amountOfMines = None
         self.N = None
@@ -91,10 +93,6 @@ class mainWindow:
         self.buttonQuit2.destroy()
         self.textMines.destroy()
         self.labelMines.destroy()
-        try:
-            self.label3.destroy()
-        except:
-            pass
 
         self.sure2 = tkinter.Label(self.master, text="Are you sure?", height=1, width=10, pady=10, bg='grey')
         self.buttonYes2 = tkinter.Button(self.master, text="Yes", width=25, height=4, bg='snow',
@@ -115,30 +113,28 @@ class mainWindow:
             self.N = int(self.text1.get("1.0", "end-1c"))
             self.M = int(self.text2.get("1.0", "end-1c"))
             self.amountOfMines = int(self.textMines.get("1.0", "end-1c"))
-            if self.M <= 6:
-                # raise SizeError('Width should be greater than 8')
+            if self.M <= 2:
                 messagebox.showerror("error", 'Width should be greater than 8')
-            elif self.N <= 6:
-                raise SizeError('Height should be greater than 8')
-            elif self.N - self.M > 10 or self.M - self.N > 10:
-                raise SizeError('Too many difference between width and height')
-            elif self.amountOfMines < 0 or self.amountOfMines > self.M * self.N:
-                raise SizeError('Incorrect amount of mines')
-            elif self.N > 25:
-                raise SizeError('Width should be lower than 50')
-            elif self.M > 25:
-                raise SizeError('Height should be lower than 50')
+            elif self.N <= 2:
+                messagebox.showerror("error", 'Height should be greater than 8')
+            # elif self.N - self.M > 10 or self.M - self.N > 10:
+            #     messagebox.showerror("error", 'Too many difference between width and height')
+            elif self.amountOfMines <= 0 or self.amountOfMines > self.M * self.N:
+                messagebox.showerror("error", 'Incorrect amount of mines')
+            elif self.N > 15:
+                messagebox.showerror("error", 'Width should be lower than 15')
+            elif self.M > 15:
+                messagebox.showerror("error", 'Height should be lower than 15')
             else:
                 self.boo1 = True
 
             if self.boo1:
-                self.submit.destroy()
+                # self.submit.destroy()
                 self.newWindow = tkinter.Toplevel(self.master)
                 self.app = Play(self.newWindow, self.N, self.M, self.amountOfMines)
 
         except ValueError:
-            self.label3 = tkinter.Label(self.master, text="This is NOT an integer number!", bg='grey')
-            self.label3.grid(row=3, columnspan=4)
+            messagebox.showerror("error", 'This is NOT an integer number!')
 
 
 class Play:
@@ -153,13 +149,13 @@ class Play:
         self.frame = tkinter.Frame(self.master)
 
         #========== Menu ==============================
-        self.myMenu = tkinter.Menu(self.master)
-        self.master.config(menu=self.myMenu)
-        self.newGame = tkinter.Menu(self.myMenu)
-        self.myMenu.add_cascade(label="New Game", menu=self.newGame)
-        self.newGame.add_command(label="New Game", command=self.newGameFun)
-        self.newGame.add_separator()
-        self.newGame.add_command(label="Exit", command=self.exitGame)
+        # self.myMenu = tkinter.Menu(self.master)
+        # self.master.config(menu=self.myMenu)
+        # self.newGame = tkinter.Menu(self.myMenu)
+        # self.myMenu.add_cascade(label="New Game", menu=self.newGame)
+        # self.newGame.add_command(label="New Game", command=self.newGameFun)
+        # self.newGame.add_separator()
+        # self.newGame.add_command(label="Exit", command=self.exitGame)
         #===============================================
 
         self.mines = tkinter.Label(self.master, bg='grey', fg='red2', font=('BOLD', 30))
@@ -168,9 +164,11 @@ class Play:
 
         # self.start = tkinter.Button(self.master, text='Start', width=15, height=2, bg='snow', command=lambda: self.buttonsFun())
         # self.start.grid(row=0, column=self.M // 2)
+        self.newGame = tkinter.Button(self.master, text='New Game', width=15, height=2, command=lambda: self.newGameFun())
+        self.newGame.grid(row=0, column=1, padx=30, pady=10)
 
         self.timer = tkinter.Label(self.master, bg='grey', fg='red2', font=('BOLD', 30))
-        self.timer.grid(row=0, column=self.M-4)
+        self.timer.grid(row=0, column=2, padx=30, pady=30)
         self.clock()
 
         self.emptyLabel = tkinter.Label(self.master, text=' ')
@@ -178,18 +176,8 @@ class Play:
 
         self.frame.grid(row=2, columnspan=M, pady=20)
 
+        self.game()
 
-        #=========== Buttons =============================
-        buttons = [tkinter.Button(self.frame, height=1, width=2) for i in range(self.N * self.M)]
-
-        for i in range(self.N):
-            for j in range(self.M):
-                if j == 0:
-                    buttons[i * self.M + j].grid(row=i + 1, column=j, padx=(20, 0))
-                elif j == self.M-1:
-                    buttons[i * self.M + j].grid(row=i + 1, column=j, padx=(0, 20))
-                else:
-                    buttons[i * self.M + j].grid(row=i + 1, column=j)
 
     def clock(self):
         self.time += 1
@@ -200,10 +188,83 @@ class Play:
         self.mines['text'] = '0'*(4 - len(str(self.amountOfMines))) + str(self.amountOfMines)
 
     def newGameFun(self):
-        mainWindow(self.master)
+        self.master.destroy()
 
-    def exitGame(self):
-        self.master.quit()
+    def neighbour(self, tab, x, y):
+        self.x = x
+        self.y = y
+        self.tab = tab
+        self.neigh = []
+
+        for i in range(-1,2):
+            for j in range(-1,2):
+                if not (i == 0 and j == 0):
+                    if y + i >= 0 and y + i < self.N:
+                        if x + j >= y and x + j < self.M:
+                            self.neigh.append((x + j, y + i))
+        return self.neigh
+
+    def logic(self):
+        self.tab = [[0 for j in range(self.M)] for i in range(self.N)]
+        self.minesVar = self.amountOfMines
+
+        while self.minesVar:
+            self.x = random.randint(0, self.M - 1)
+            self.y = random.randint(0, self.N - 1)
+
+            if self.tab[self.y][self.x] == 0:
+                self.tab[self.y][self.x] = 'x'
+                self.minesVar -= 1
+
+        for i in range(self.N):
+            for j in range(self.M):
+                if self.tab[i][j] == 0:
+                    self.neighb = self.neighbour(self.tab, j, i)
+                    self.minesVar = 0
+
+                    for x, y in self.neighb:
+                        if self.tab[y][x] == 'x':
+                            self.minesVar += 1
+
+                    self.tab[i][j] = self.minesVar
+        return self.tab
+
+    def game(self):
+        # =========== Buttons =============================
+        buttons = [tkinter.Button(self.frame, height=1, width=2) for i in range(self.N * self.M)]
+        self.logic()
+
+        for i in range(self.N):
+            for j in range(self.M):
+                if j == 0:
+                    buttons[i * self.M + j].grid(row=i + 1, column=j, padx=(20, 0))
+                elif j == self.M - 1:
+                    buttons[i * self.M + j].grid(row=i + 1, column=j, padx=(0, 20))
+                else:
+                    buttons[i * self.M + j].grid(row=i + 1, column=j)
+                    buttons[i * self.M + j].bind('<Button-1>', lambda event, : self.leftButton())
+                    buttons[i * self.M + j].bind('<Button-3>', lambda event, p=buttons[i * self.M + j]: self.rightButtom(p, self.iconss()))
+
+    def leftButton(self):
+        pass
+
+    def rightButtom(self, button, icon):
+        self.button = button
+        self.icon = icon
+
+        self.button['image'] = self.icon['flag']
+
+    def iconss(self):
+        self.icons = {}
+
+        self.icons['numbers'] = [tkinter.PhotoImage(file='Icons/' + str(i) + '.png') for i in range(1, 9)]
+        self.icons['flag'] = tkinter.PhotoImage(file='Icons/a.png')
+        self.icons['mine'] = [tkinter.PhotoImage(file='Icons/rock.png'), tkinter.PhotoImage(file='Icons/rockp.png')]
+
+        return self.icons
+
+    # def exitGame(self):
+    #     self.master.quit()
 
     # def buttonsFun(self):
     #     # self.start.destroy()
