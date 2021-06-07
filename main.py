@@ -29,19 +29,19 @@ class MainWindow:
         except:
             pass
 
-        self.__amountOfMines = None
-        self.__N = None
-        self.__M = None
-        self.__boo1 = None
-        self.master = master
-        self.master.configure(bg='grey')
-        self.master.geometry('410x200')
-        self.master.resizable(0, 0)
-        self.master.iconphoto(False, tkinter.PhotoImage(file=r'Img/icon.png'))
+        self.__amountOfMines = int()
+        self.__N = int()
+        self.__M = int()
+        self.__boo1 = bool()
+        self.__master = master
+        self.__master.configure(bg='grey')
+        self.__master.geometry('410x200')
+        self.__master.resizable(0, 0)
+        self.__master.iconphoto(False, tkinter.PhotoImage(file=r'Icons/icon.png'))
 
-        self.buttonPlay = tkinter.Button(self.master, text='Play', width=25, height=4, bg='snow', command=lambda: self.clicked())
-        self.buttonQuit = tkinter.Button(self.master, text='Quit', width=25, height=4, bg='snow', command=lambda: self.close_windowYesNo())
-        self.labelAuthor = tkinter.Label(self.master, text='Author: Bartosz Matras', width=26, bg='grey')
+        self.buttonPlay = tkinter.Button(self.__master, text='Play', width=25, height=4, bg='snow', command=lambda: self.clicked())
+        self.buttonQuit = tkinter.Button(self.__master, text='Quit', width=25, height=4, bg='snow', command=lambda: self.close_windowYesNo())
+        self.labelAuthor = tkinter.Label(self.__master, text='Author: Bartosz Matras', width=26, bg='grey')
 
         self.buttonPlay.grid(row=0, column=0, padx=10, pady=10)
         self.buttonQuit.grid(row=0, column=1, padx=10, pady=10)
@@ -52,17 +52,17 @@ class MainWindow:
         self.buttonQuit.destroy()
         self.labelAuthor.destroy()
 
-        self.label1 = tkinter.Label(self.master, text='Enter height: ', bg='grey', height=1, width=10, pady=5)
-        self.text1 = tkinter.Text(self.master, height=1, width=8, padx=2, pady=5)
+        self.label1 = tkinter.Label(self.__master, text='Enter height: ', bg='grey', height=1, width=10, pady=5)
+        self.text1 = tkinter.Text(self.__master, height=1, width=8, padx=2, pady=5)
 
-        self.label2 = tkinter.Label(self.master, text='Enter width: ', bg='grey', height=1, width=10, pady=5)
-        self.text2 = tkinter.Text(self.master, height=1, width=8, padx=2, pady=5)
+        self.label2 = tkinter.Label(self.__master, text='Enter width: ', bg='grey', height=1, width=10, pady=5)
+        self.text2 = tkinter.Text(self.__master, height=1, width=8, padx=2, pady=5)
 
-        self.labelMines = tkinter.Label(self.master, text='Enter amount of mines:', bg='grey', height=1, width=20, pady=10)
-        self.textMines = tkinter.Text(self.master, height=1, width=8, padx=2, pady=5)
+        self.labelMines = tkinter.Label(self.__master, text='Enter amount of mines:', bg='grey', height=1, width=20, pady=10)
+        self.textMines = tkinter.Text(self.__master, height=1, width=8, padx=2, pady=5)
 
-        self.buttonQuit2 = tkinter.Button(self.master, text='Quit', width=10, height=2, bg='snow', command=lambda: self.close_windowYesNo2())
-        self.submit = tkinter.Button(self.master, text='Submit', width=10, heigh=2, bg='snow', command=lambda: self.clicked2())
+        self.buttonQuit2 = tkinter.Button(self.__master, text='Quit', width=10, height=2, bg='snow', command=lambda: self.close_windowYesNo2())
+        self.submit = tkinter.Button(self.__master, text='Submit', width=10, heigh=2, bg='snow', command=lambda: self.clicked2())
 
         self.label1.grid(row=0, column=0, pady=10)
         self.text1.grid(row=0, column=1, pady=10)
@@ -78,9 +78,9 @@ class MainWindow:
         self.buttonQuit.destroy()
         self.labelAuthor.destroy()
 
-        self.sure1 = tkinter.Label(self.master, text="Are you sure?", height=1, width=10, pady=10, bg='grey')
-        self.buttonYes = tkinter.Button(self.master, text="Yes", width=25, height=4, bg='snow', command=lambda: self.close_window())
-        self.buttonNo = tkinter.Button(self.master, text="No", width=25, height=4, bg='snow', command=lambda: self.__init__(self.master))
+        self.sure1 = tkinter.Label(self.__master, text="Are you sure?", height=1, width=10, pady=10, bg='grey')
+        self.buttonYes = tkinter.Button(self.__master, text="Yes", width=25, height=4, bg='snow', command=lambda: self.close_window())
+        self.buttonNo = tkinter.Button(self.__master, text="No", width=25, height=4, bg='snow', command=lambda: self.__init__(self.__master))
 
         self.sure1.grid(row=0, columnspan=2)
         self.buttonYes.grid(row=1, column=0, padx=10, pady=10)
@@ -96,18 +96,18 @@ class MainWindow:
         self.textMines.destroy()
         self.labelMines.destroy()
 
-        self.sure2 = tkinter.Label(self.master, text="Are you sure?", height=1, width=10, pady=10, bg='grey')
-        self.buttonYes2 = tkinter.Button(self.master, text="Yes", width=25, height=4, bg='snow',
+        self.sure2 = tkinter.Label(self.__master, text="Are you sure?", height=1, width=10, pady=10, bg='grey')
+        self.buttonYes2 = tkinter.Button(self.__master, text="Yes", width=25, height=4, bg='snow',
                                         command=lambda: self.close_window())
-        self.buttonNo2 = tkinter.Button(self.master, text="No", width=25, height=4, bg='snow',
-                                       command=lambda: self.__init__(self.master))
+        self.buttonNo2 = tkinter.Button(self.__master, text="No", width=25, height=4, bg='snow',
+                                       command=lambda: self.__init__(self.__master))
 
         self.sure2.grid(row=0, columnspan=2)
         self.buttonYes2.grid(row=1, column=0, padx=10, pady=10)
         self.buttonNo2.grid(row=1, column=1, padx=10, pady=10)
 
     def close_window(self):
-        self.master.destroy()
+        self.__master.destroy()
 
     def clicked2(self):
         try:
@@ -129,7 +129,7 @@ class MainWindow:
                 self.__boo1 = True
 
             if self.__boo1:
-                self.newWindow = tkinter.Toplevel(self.master)
+                self.newWindow = tkinter.Toplevel(self.__master)
                 self.app = game.Play(self.newWindow, self.__N, self.__M, self.__amountOfMines)
 
         except ValueError:
