@@ -37,7 +37,7 @@ class MainWindow:
         self.__master.configure(bg='grey')
         self.__master.geometry('410x200')
         self.__master.resizable(0, 0)
-        self.__master.iconphoto(False, tkinter.PhotoImage(file=r'Icons/icon.png'))
+        self.__master.iconphoto(False, tkinter.PhotoImage(file=r'Img/icon.png'))
 
         self.buttonPlay = tkinter.Button(self.__master, text='Play', width=25, height=4, bg='snow', command=lambda: self.clicked())
         self.buttonQuit = tkinter.Button(self.__master, text='Quit', width=25, height=4, bg='snow', command=lambda: self.close_windowYesNo())

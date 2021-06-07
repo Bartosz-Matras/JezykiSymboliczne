@@ -15,7 +15,7 @@ class Play:
         self.__master = master
         self.__z = str()
         self.__master.config(bg='grey71')
-        self.__master.iconphoto(False, tkinter.PhotoImage(file=r'Icons/icon.png'))
+        self.__master.iconphoto(False, tkinter.PhotoImage(file=r'Img/icon.png'))
         self.frame = tkinter.Frame(self.__master)
         self.frame.config(bg='grey71')
         self.__master.bind("<Key>", self.funXyzzy)
@@ -157,9 +157,11 @@ class Play:
         field = self.tab[indx // self.__M][indx % self.__M]
 
         if button.cget('image'):
+            button.bind("<Button-1>", lambda event, p=button : self.leftButton(p, self.tab, self.icon))
             button['image'] = ''
             self.__flagsLeft += 1
         else:
+            button.unbind("<Button-1>")
             if self.__flagsLeft <= 0:
                 messagebox.showinfo("Info", "Too many flags")
             else:
@@ -185,8 +187,8 @@ class Play:
     def iconss(self):
         self.icons = {}
 
-        self.icons['numbers'] = [tkinter.PhotoImage(file='Icons/' + str(i) + '.png') for i in range(1, 9)]
-        self.icons['flag'] = tkinter.PhotoImage(file='Icons/flag1.png')
-        self.icons['mine'] = [tkinter.PhotoImage(file='Icons/bomb.png'), tkinter.PhotoImage(file='Icons/bombr.png')]
+        self.icons['numbers'] = [tkinter.PhotoImage(file='Img/' + str(i) + '.png') for i in range(1, 9)]
+        self.icons['flag'] = tkinter.PhotoImage(file='Img/flag1.png')
+        self.icons['mine'] = [tkinter.PhotoImage(file='Img/bomb.png'), tkinter.PhotoImage(file='Img/bombr.png')]
 
         return self.icons
