@@ -1,6 +1,5 @@
 ## Nr Albumu: 134126
 ## Imie i nazwisko: Bartosz Matras, gl04
-## Link do githuba:  https://github.com/Bartosz-Matras/JezykiSymboliczne.git
 ### 13. Saper
 ### Opis zadania
 * Główne okno zawiera dwa pola tekstowe do wprowadzania rozmiaru planszy (nna m pól), planszę o wymiarach nna mpól (np. siatka przycisków), pole tekstowe na wprowadzenie liczby min na planszy, liczbę oznaczonych pól, liczbę min na planszy, oraz przycisk rozpoczęcia nowej gry.
